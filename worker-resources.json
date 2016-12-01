@@ -14,7 +14,7 @@
     "adminPassword": {
       "type": "securestring"
     },
-    "machineSettingsbroker": {
+    "machineSettingsWorker": {
       "type": "object"
     },
     "subnet": {

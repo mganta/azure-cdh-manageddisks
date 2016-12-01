@@ -71,31 +71,31 @@
     "tshirtSizeMedium": {
       "vmSize": "Standard_D14_V2",
       "diskSize": 1023,
-      "vmTemplate": "[concat(variables('templateBaseUrl'),'workernode-resources.json')]",
+      "vmTemplate": "[concat(variables('templateBaseUrl'),'worker-resources.json')]",
       "masterCount": 5,
       "workerCount": 10,
       "storage": {
-        "name": "[parameters('storageAccountNamePrefix')]",
+        "name": "[parameters('storageAccountNamePrefix')]"
       }
     },
     "tshirtSizeLarge": {
       "vmSize": "Standard_D14_V2",
       "diskSize": 1023,
-      "vmTemplate": "[concat(variables('templateBaseUrl'), 'workernode-resources.json')]",
+      "vmTemplate": "[concat(variables('templateBaseUrl'), 'worker-resources.json')]",
       "masterCount": 5,
       "workerCount": 100,
       "storage": {
-        "name": "[parameters('storageAccountNamePrefix')]",
+        "name": "[parameters('storageAccountNamePrefix')]"
       }
     },
     "tshirtSizeXLarge": {
       "vmSize": "Standard_D14_V2",
       "diskSize": 1023,
-      "vmTemplate": "[concat(variables('templateBaseUrl'), 'workernode-resources.json')]",
+      "vmTemplate": "[concat(variables('templateBaseUrl'), 'worker-resources.json')]",
       "masterCount": 8,
       "workerCount": 200,
       "storage": {
-        "name": "[parameters('storageAccountNamePrefix')]",
+        "name": "[parameters('storageAccountNamePrefix')]"
       }
     },
     "tshirtSize": "[variables(concat('tshirtSize', parameters('tshirtSize')))]",
@@ -251,7 +251,7 @@
           "storageSettings": {
             "value": "[variables('tshirtSize').storage]"
           },
-          "machineSettingsworker": {
+          "machineSettingsWorker": {
             "value": {
               "vmSize": "[variables('tshirtSize').vmSize]",
               "diskSize": "[variables('tshirtSize').diskSize]",

@@ -154,7 +154,7 @@
           "storageSettings": {
             "value": "[variables('tshirtSize').storage]"
           },
-          "machineSettingsworker": {
+          "machineSettingsWorker": {
             "value": {
               "vmSize": "[variables('tshirtSize').vmSize]",
               "diskSize": "[variables('tshirtSize').diskSize]",

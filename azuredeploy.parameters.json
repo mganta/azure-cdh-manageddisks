@@ -9,7 +9,7 @@
       "value": "admin"
     },
     "adminPassword": {
-      "value": "azure0010"
+      "value": "azure00"
     },
     "domainName": {
       "value": "cdh-boa-iaas"
@@ -19,6 +19,12 @@
     },
     "batchSettings": {
       "value": "0"
+    },
+    "virtualNetworkName": {
+      "value": "zone1"
+    },
+    "tshirtSize": {
+      "value": "Medium"
     }
   }
 }
