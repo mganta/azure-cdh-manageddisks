@@ -75,7 +75,8 @@
       "masterCount": 5,
       "workerCount": 10,
       "storage": {
-        "name": "[parameters('storageAccountNamePrefix')]"
+        "name": "[parameters('storageAccountNamePrefix')]",
+        "count": 2
       }
     },
     "tshirtSizeLarge": {
@@ -85,7 +86,8 @@
       "masterCount": 5,
       "workerCount": 100,
       "storage": {
-        "name": "[parameters('storageAccountNamePrefix')]"
+        "name": "[parameters('storageAccountNamePrefix')]",
+        "count": 2
       }
     },
     "tshirtSizeXLarge": {
@@ -95,7 +97,8 @@
       "masterCount": 8,
       "workerCount": 200,
       "storage": {
-        "name": "[parameters('storageAccountNamePrefix')]"
+        "name": "[parameters('storageAccountNamePrefix')]",
+        "count": 2
       }
     },
     "tshirtSize": "[variables(concat('tshirtSize', parameters('tshirtSize')))]",
