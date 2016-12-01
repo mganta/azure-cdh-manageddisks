@@ -31,7 +31,7 @@
     "nicName": "[concat('worker', 'nic', parameters('batchSettings'))]",
     "adminUsername": "[parameters('commonSettings').adminUsername]",
     "vmCount": "[parameters('machineSettingsWorker').vmCount]",
-    "addprefix": "[parameters('machineSettingsbroker').addprefix]"
+    "addprefix": "[parameters('machineSettingsWorker').addprefix]"
   },
   "resources": [
     {
@@ -96,7 +96,7 @@
           "id": "[resourceId('Microsoft.Compute/availabilitySets','availabilitySetDataNodes', parameters('batchSettings'))]"
         },
         "hardwareProfile": {
-          "vmSize": "[parameters('machineSettingsbroker').vmSize]"
+          "vmSize": "[parameters('machineSettingsWorker').vmSize]"
         },
         "osProfile": {
           "computerName": "[concat(variables('vmName'), copyindex())]",
