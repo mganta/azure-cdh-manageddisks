@@ -22,11 +22,11 @@
     },
     "batchSettings": {
       "type": "string"
-    },
+    }
   },
   "variables": {
     "subnetRef": "[concat(resourceId('Microsoft.Network/virtualNetworks', parameters('subnet').vnet), '/subnets/', parameters('subnet').name)]",
-    "storageAccountName": "[concat(parameters('storageSettings').name, variables('namespace'), parameters('batchSettings'))]",
+    "storageAccountName": "[concat(parameters('storageSettings').name, parameters('commonSettings').namespace, parameters('batchSettings'))]",
     "vmName": "[concat('worker', 'vm', parameters('batchSettings'))]",
     "nicName": "[concat('worker', 'nic', parameters('batchSettings'))]",
     "adminUsername": "[parameters('commonSettings').adminUsername]",
