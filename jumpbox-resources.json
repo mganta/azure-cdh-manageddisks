@@ -89,6 +89,11 @@
         "name": "nicCopyLoop",
         "count": "[variables('vmCount')]"
       },
+      "plan": {
+                "name": "[parameters('osSettings').imageReference.sku]",
+                "product": "[parameters('osSettings').imageReference.offer]",
+                "publisher": "[parameters('osSettings').imageReference.publisher]"
+      },
       "properties": {
         "hardwareProfile": {
           "vmSize": "[variables('vmSize')]"
