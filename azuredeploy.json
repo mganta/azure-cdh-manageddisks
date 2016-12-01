@@ -76,7 +76,7 @@
       "workerCount": 10,
       "storage": {
         "name": "[parameters('storageAccountNamePrefix')]",
-        "count": 2
+        "count": 1
       }
     },
     "tshirtSizeLarge": {
@@ -87,7 +87,7 @@
       "workerCount": 100,
       "storage": {
         "name": "[parameters('storageAccountNamePrefix')]",
-        "count": 2
+        "count": 1
       }
     },
     "tshirtSizeXLarge": {
@@ -98,14 +98,14 @@
       "workerCount": 200,
       "storage": {
         "name": "[parameters('storageAccountNamePrefix')]",
-        "count": 2
+        "count": 1
       }
     },
     "tshirtSize": "[variables(concat('tshirtSize', parameters('tshirtSize')))]",
     "jumpboxTemplateEnabled": "jumpbox-resources.json",
     "jumpboxTemplateDisabled": "empty-resources.json",
     "vmTemplatemaster": "[concat(variables('templateBaseUrl'), 'master-resources.json')]",
-    "jumpboxTemplateUrl": "[concat(variables('templateBaseUrl'), variables(concat('jumpboxTemplate',parameters('jumpbox'))))]",
+    "jumpboxTemplateUrl": "[concat(variables('templateBaseUrl'), 'jumpbox-resources.json')]",
     "osSettings": {
       "scripts": [
         "[concat(variables('templateBaseUrl'), 'master_install.sh')]",
@@ -283,7 +283,7 @@
         "parameters": {
           "storageSettings": {
             "value": {
-              "name": "[concat(parameters('storageAccountNamePrefix'), variables('tshirtSize').storage.jumpbox)]"
+              "name": "[concat(parameters('storageAccountNamePrefix'), 'jumpbox')]"
             }
           },
           "dnsName": {

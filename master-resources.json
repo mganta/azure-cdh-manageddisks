@@ -26,13 +26,14 @@
   },
   "variables": {
     "subnetRef": "[concat(resourceId('Microsoft.Network/virtualNetworks', parameters('subnet').vnet), '/subnets/', parameters('subnet').name)]",
-    "storageAccountName": "[concat(parameters('storageSettings').name, 'master', parameters('batchSettings'))]",
+    "storageAccountName": "[concat(parameters('storageSettings').name, variables('namespace'), parameters('batchSettings'))]",
     "vmName": "[concat('master', 'vm', parameters('batchSettings'))]",
     "nicName": "[concat('master', 'nic',parameters('batchSettings'))]",
     "adminUsername": "[parameters('commonSettings').adminUsername]",
     "vmCount": "[parameters('machineSettings').vmCount]",
     "vmSize": "Standard_DS14_V2",
-    "addprefix": "[parameters('machineSettings').addprefix]"
+    "addprefix": "[parameters('machineSettings').addprefix]",
+    "availabilitySetName": "[concat('availabilitySetMasterNodes', parameters('batchSettings'))]"
   },
    "resources": [
     {
@@ -70,7 +71,7 @@
     },
     {
       "type": "Microsoft.Compute/availabilitySets",
-      "name": "[concat('availabilitySetMasterNodes', parameters('batchSettings'))]",
+      "name": variables('availabilitySetName'),
       "apiVersion": "2016-04-30-preview",
       "location":"[resourceGroup().location]",
       "properties": {
@@ -94,7 +95,7 @@
       },
       "properties": {
         "availabilitySet": {
-          "id": "[resourceId('Microsoft.Compute/availabilitySets','availabilitySetMasterNode', parameters('batchSettings'))]"
+          "id": "[resourceId('Microsoft.Compute/availabilitySets',variables('availabilitySetName'))]"
         },
         "hardwareProfile": {
           "vmSize": "[variables('vmSize')]"

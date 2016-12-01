@@ -26,12 +26,13 @@
   },
   "variables": {
     "subnetRef": "[concat(resourceId('Microsoft.Network/virtualNetworks', parameters('subnet').vnet), '/subnets/', parameters('subnet').name)]",
-    "storageAccountName": "[concat(parameters('storageSettings').name, 'worker', parameters('batchSettings'))]",
+    "storageAccountName": "[concat(parameters('storageSettings').name, variables('namespace'), parameters('batchSettings'))]",
     "vmName": "[concat('worker', 'vm', parameters('batchSettings'))]",
     "nicName": "[concat('worker', 'nic', parameters('batchSettings'))]",
     "adminUsername": "[parameters('commonSettings').adminUsername]",
     "vmCount": "[parameters('machineSettingsWorker').vmCount]",
-    "addprefix": "[parameters('machineSettingsWorker').addprefix]"
+    "addprefix": "[parameters('machineSettingsWorker').addprefix]",
+    "availabilitySetName": "[concat('availabilitySetWorkerNodes', parameters('batchSettings'))]"
   },
   "resources": [
     {
@@ -69,7 +70,7 @@
     },
     {
       "type": "Microsoft.Compute/availabilitySets",
-      "name": "[concat('availabilitySetDataNodes', parameters('batchSettings'))]",
+      "name": variables('availabilitySetName'),
       "apiVersion": "2016-04-30-preview",
       "location":"[resourceGroup().location]",
       "properties": {
@@ -93,7 +94,7 @@
       },
       "properties": {
         "availabilitySet": {
-          "id": "[resourceId('Microsoft.Compute/availabilitySets','availabilitySetDataNodes', parameters('batchSettings'))]"
+          "id": "[resourceId('Microsoft.Compute/availabilitySets',variables('availabilitySetName'))]"
         },
         "hardwareProfile": {
           "vmSize": "[parameters('machineSettingsWorker').vmSize]"
