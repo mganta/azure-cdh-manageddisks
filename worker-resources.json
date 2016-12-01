@@ -70,7 +70,7 @@
     },
     {
       "type": "Microsoft.Compute/availabilitySets",
-      "name": variables('availabilitySetName'),
+      "name": "[variables('availabilitySetName')]",
       "apiVersion": "2016-04-30-preview",
       "location":"[resourceGroup().location]",
       "properties": {
