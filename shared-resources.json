@@ -52,9 +52,9 @@
             }
           },
           {
-            "name": "[parameters('networkSettings').subnets.data.name]",
+            "name": "[parameters('networkSettings').subnets.worker.name]",
             "properties": {
-              "addressPrefix": "[parameters('networkSettings').subnets.data.prefix]"
+              "addressPrefix": "[parameters('networkSettings').subnets.worker.prefix]"
             }
           }
         ]
