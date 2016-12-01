@@ -1,0 +1,171 @@
+﻿{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "storageAccountNamePrefix": {
+      "type": "string",
+      "metadata": {
+        "description": "Unique name of the new storage account that will be created"
+      }
+    },
+    "domainName": {
+      "type": "string",
+      "metadata": {
+        "description": "Domain name of the public jumpbox"
+      }
+    },
+    "adminUsername": {
+      "type": "string",
+      "defaultValue": "azureuser",
+      "metadata": {
+        "description": "Virtual machine administrator username"
+      }
+    },
+    "adminPassword": {
+      "type": "securestring",
+      "metadata": {
+        "description": "Virtual machine administrator password"
+      }
+    },
+    "tshirtSize": {
+      "type": "string",
+      "defaultValue": "Medium",
+      "allowedValues": [
+        "Medium",
+        "Large",
+        "XLarge"
+      ],
+      "metadata": {
+        "description": "T-shirt size of the cdh deployment"
+      }
+    },
+   "batchSettings": {
+      "type": "string",
+     "defaultValue": "0",
+      "metadata": {
+        "description": "batch number"
+      }
+    },
+    "virtualNetworkName": {
+      "type": "string",
+      "defaultValue": "zone1",
+      "metadata": {
+        "description": "Virtual network name"
+      }
+    }
+  },
+  "variables": {
+    "templateBaseUrl": "https://raw.githubusercontent.com/mganta/azure-cdh-manageddisks/master/",
+    "sharedTemplateUrl": "[concat(variables('templateBaseUrl'), 'shared-resources.json')]",
+    "tshirtSizeMedium": {
+      "vmSize": "Standard_D14_V2",
+      "diskSize": 1023,
+      "vmTemplate": "[concat(variables('templateBaseUrl'),'worker-resources.json')]",
+      "masterCount": 5,
+      "workerCount": 10,
+      "storage": {
+        "name": "[parameters('storageAccountNamePrefix')]",
+      }
+    },
+    "tshirtSizeLarge": {
+      "vmSize": "Standard_D14_V2",
+      "diskSize": 1023,
+      "vmTemplate": "[concat(variables('templateBaseUrl'), 'worker-resources.json')]",
+      "masterCount": 5,
+      "workerCount": 100,
+      "storage": {
+        "name": "[parameters('storageAccountNamePrefix')]",
+      }
+    },
+    "tshirtSizeXLarge": {
+      "vmSize": "Standard_D14_V2",
+      "diskSize": 1023,
+      "vmTemplate": "[concat(variables('templateBaseUrl'), 'worker-resources.json')]",
+      "masterCount": 8,
+      "workerCount": 200,
+      "storage": {
+        "name": "[parameters('storageAccountNamePrefix')]",
+      }
+    },
+    "tshirtSize": "[variables(concat('tshirtSize', parameters('tshirtSize')))]",
+    "vmTemplatemaster": "[concat(variables('templateBaseUrl'), 'master-resources.json')]",
+    "osSettings": {
+      "scripts": [
+        "[concat(variables('templateBaseUrl'), 'master_install.sh')]",
+        "[concat(variables('templateBaseUrl'), 'jump_install.sh')]",
+        "[concat(variables('templateBaseUrl'), 'worker_install.sh')]"
+      ],
+      "imageReference": {
+          "publisher": "cloudera",
+          "offer": "cloudera-centos-os",
+          "sku": "6_7",
+          "version": "latest"
+      }
+    },
+    "networkSettings": {
+      "vnetName": "[parameters('virtualNetworkName')]",
+      "addressPrefix": "10.2.0.0/16",
+      "subnets": {
+        "worker": {
+          "name": "worker",
+          "prefix": "10.2.0.0/20",
+          "addprefix": "10.2.0.1",
+          "vnet": "[parameters('virtualNetworkName')]"
+        }
+      }
+    },
+    "availabilitySetSettings": {
+      "name": "cdhAvailabilitySet",
+      "fdCount": 3,
+      "udCount": 5
+    }
+  },
+  "resources": [
+    {
+      "name": "worker-node",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2016-02-01",
+      "dependsOn": [],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('tshirtSize').vmTemplate]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "adminPassword": {
+            "value": "[parameters('adminPassword')]"
+          },
+          "osSettings": {
+            "value": "[variables('osSettings')]"
+          },
+          "subnet": {
+            "value": "[variables('networkSettings').subnets.worker]"
+          },
+          "batchSettings": {
+            "value": "[parameters('batchSettings')]"
+          },
+          "commonSettings": {
+            "value": {
+              "adminUsername": "[parameters('adminUsername')]",
+              "namespace": "worker"
+            }
+          },
+          "storageSettings": {
+            "value": "[variables('tshirtSize').storage]"
+          },
+          "machineSettingsworker": {
+            "value": {
+              "vmSize": "[variables('tshirtSize').vmSize]",
+              "diskSize": "[variables('tshirtSize').diskSize]",
+              "vmCount": "[variables('tshirtSize').workerCount]",
+              "availabilitySet": "[variables('availabilitySetSettings').name]",
+              "addprefix": "[variables('networkSettings').subnets.worker.addprefix]"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "outputs": {}
+}

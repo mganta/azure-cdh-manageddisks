@@ -1,0 +1,24 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "storageAccountNamePrefix": {
+      "value": "cdhmd"
+    },
+    "adminUsername": {
+      "value": "admin"
+    },
+    "adminPassword": {
+      "value": "azure0010"
+    },
+    "domainName": {
+      "value": "cdh-boa-iaas"
+    },
+    "jumpbox": {
+      "value": "Enabled"
+    },
+    "batchSettings": {
+      "value": "0"
+    }
+  }
+}
