@@ -2,6 +2,22 @@
 
 yum -y install bind bind-utils
 
+wget https://raw.githubusercontent.com/mganta/azure-cdh-manageddisks/master/dns/db.internal
+wget https://raw.githubusercontent.com/mganta/azure-cdh-manageddisks/master/dns/db.internal.16
+wget https://raw.githubusercontent.com/mganta/azure-cdh-manageddisks/master/dns/db.internal.18
+wget https://raw.githubusercontent.com/mganta/azure-cdh-manageddisks/master/dns/db.internal.20
+
+wget https://raw.githubusercontent.com/mganta/azure-cdh-manageddisks/master/dns/db.reverse
+wget https://raw.githubusercontent.com/mganta/azure-cdh-manageddisks/master/dns/db.reverse.16
+wget https://raw.githubusercontent.com/mganta/azure-cdh-manageddisks/master/dns/db.reverse.18
+wget https://raw.githubusercontent.com/mganta/azure-cdh-manageddisks/master/dns/db.reverse.20
+
+wget https://raw.githubusercontent.com/mganta/azure-cdh-manageddisks/master/dns/named.conf.local
+wget https://raw.githubusercontent.com/mganta/azure-cdh-manageddisks/master/dns/named.conf.local.16
+wget https://raw.githubusercontent.com/mganta/azure-cdh-manageddisks/master/dns/named.conf.local.18
+wget https://raw.githubusercontent.com/mganta/azure-cdh-manageddisks/master/dns/named.conf.local.20
+
+wget https://raw.githubusercontent.com/mganta/azure-cdh-manageddisks/master/dns/named.conf
 
 mkdir /etc/named/zones
 
