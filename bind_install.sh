@@ -21,10 +21,11 @@ wget https://raw.githubusercontent.com/mganta/azure-cdh-manageddisks/master/dns/
 
 wget https://raw.githubusercontent.com/mganta/azure-cdh-manageddisks/master/scripts/dns_updates.sh
 
-chmod 755 dns_updates.sh
 
 mkdir /etc/named/zones
+exit 0
 
+chmod 755 dns_updates.sh
 #mv /etc/named.conf /etc/named.conf.orig
 
 cp named.conf /etc/named.conf
