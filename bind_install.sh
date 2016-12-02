@@ -19,6 +19,10 @@ wget https://raw.githubusercontent.com/mganta/azure-cdh-manageddisks/master/dns/
 
 wget https://raw.githubusercontent.com/mganta/azure-cdh-manageddisks/master/dns/named.conf
 
+wget https://raw.githubusercontent.com/mganta/azure-cdh-manageddisks/master/scripts/dns_updates.sh
+
+chmod 755 dns_updates.sh
+
 mkdir /etc/named/zones
 
 mv /etc/named.conf /etc/named.conf.orig
@@ -43,4 +47,5 @@ cp db.reverse.20 /etc/named/zones/db.reverse.20
 chown -R named:named /etc/named*
 service named start
 chkconfig named on
+./dns_updates.sh
 service network restart
