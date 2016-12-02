@@ -151,7 +151,7 @@
         "autoUpgradeMinorVersion": true,
         "settings": {
           "fileUris": "[parameters('osSettings').scripts]",
-          "commandToExecute": "[concat('bash jumpbox_install')]"
+          "commandToExecute": "[concat('bash jump_install.sh')]"
         }
       }
     }
