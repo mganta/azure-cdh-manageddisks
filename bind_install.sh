@@ -47,5 +47,5 @@ cp db.reverse.20 /etc/named/zones/db.reverse.20
 chown -R named:named /etc/named*
 service named start
 chkconfig named on
-./dns_updates.sh cdh-boa.internal
+bash dns_updates.sh cdh-boa.internal
 service network restart
