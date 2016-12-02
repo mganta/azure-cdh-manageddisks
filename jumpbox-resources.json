@@ -90,7 +90,7 @@
         "count": "[variables('vmCount')]"
       },
       "plan": {
-                "name": "[parameters('osSettings').imageReference.sku]",
+                "name": ""Pay-As-You-Go"",
                 "product": "[parameters('osSettings').imageReference.offer]",
                 "publisher": "[parameters('osSettings').imageReference.publisher]"
       },
