@@ -56,7 +56,12 @@
             "properties": {
               "addressPrefix": "[parameters('networkSettings').subnets.worker.prefix]"
             }
-          }
+          },
+          {
+            "name": "[parameters('networkSettings').subnets.util.name]",
+            "properties": {
+              "addressPrefix": "[parameters('networkSettings').subnets.util.prefix]"
+            }
         ]
       }
     },

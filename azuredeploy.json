@@ -108,11 +108,13 @@
     "jumpboxTemplateEnabled": "jumpbox-resources.json",
     "jumpboxTemplateDisabled": "empty-resources.json",
     "vmTemplatemaster": "[concat(variables('templateBaseUrl'), 'master-resources.json')]",
+    "vmTemplateutil": "[concat(variables('templateBaseUrl'), 'bind-resources.json')]",
     "jumpboxTemplateUrl": "[concat(variables('templateBaseUrl'), 'jumpbox-resources.json')]",
     "osSettings": {
       "scripts": [
         "[concat(variables('templateBaseUrl'), 'master_install.sh')]",
         "[concat(variables('templateBaseUrl'), 'jump_install.sh')]",
+        "[concat(variables('templateBaseUrl'), 'bind_install.sh')]",
         "[concat(variables('templateBaseUrl'), 'worker_install.sh')]"
       ],
       "imageReference": {
@@ -129,6 +131,11 @@
         "jump": {
           "name": "jump",
           "prefix": "10.2.16.0/23",
+          "vnet": "[parameters('virtualNetworkName')]"
+        },
+        "util": {
+          "name": "util",
+          "prefix": "10.2.20.0/27",
           "vnet": "[parameters('virtualNetworkName')]"
         },
         "master": {
@@ -175,12 +182,59 @@
         }
       }
     },
+   {
+      "name": "util-node",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2016-02-01",
+      "dependsOn": [
+        "[concat('Microsoft.Resources/deployments/', 'shared')]"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('vmTemplateutil')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "adminPassword": {
+            "value": "[parameters('adminPassword')]"
+          },
+          "osSettings": {
+            "value": "[variables('osSettings')]"
+          },
+          "subnet": {
+            "value": "[variables('networkSettings').subnets.util]"
+          },
+          "batchSettings": {
+            "value": "[parameters('batchSettings')]"
+          },
+          "commonSettings": {
+            "value": {
+              "adminUsername": "[parameters('adminUsername')]",
+              "namespace": "util"
+            }
+          },
+          "storageSettings": {
+            "value": "[variables('tshirtSize').storage]"
+          },
+          "machineSettings": {
+            "value": {
+              "vmSize": "[variables('tshirtSize').vmSize]",
+              "diskSize": "[variables('tshirtSize').diskSize]",
+              "vmCount": "1",
+              "availabilitySet": "[variables('availabilitySetSettings').name]",
+              "addprefix": "[variables('networkSettings').subnets.util.addprefix]"
+            }
+          }
+        }
+      }
+    },
     {
       "name": "master-node",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2016-02-01",
       "dependsOn": [
-        "[concat('Microsoft.Resources/deployments/', 'shared')]"
+        "[concat('Microsoft.Resources/deployments/', 'util-node')]"
       ],
       "properties": {
         "mode": "Incremental",
@@ -275,7 +329,7 @@
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2016-02-01",
       "dependsOn": [
-        "[concat('Microsoft.Resources/deployments/', 'shared')]"
+        "[concat('Microsoft.Resources/deployments/', 'util-node')]"
       ],
       "properties": {
         "mode": "Incremental",

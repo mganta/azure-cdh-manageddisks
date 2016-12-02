@@ -1,0 +1,11 @@
+zone "cdh-jump.internal" IN {
+    type master;
+    file "/etc/named/zones/db.internal.16";
+    allow-update { 10.2.16.0/23; };
+};
+
+zone "16.2.10.in-addr.arpa" IN {
+    type master;
+    file "/etc/named/zones/db.reverse.16";
+    allow-update { 10.2.16.0/23; };
+ };

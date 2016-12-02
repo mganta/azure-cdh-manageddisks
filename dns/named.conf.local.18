@@ -1,0 +1,11 @@
+zone "cdh-master.internal" IN {
+    type master;
+    file "/etc/named/zones/db.internal.18";
+    allow-update { 10.2.18.0/23; };
+};
+
+zone "18.2.10.in-addr.arpa" IN {
+    type master;
+    file "/etc/named/zones/db.reverse.18";
+    allow-update { 10.2.18.0/23; };
+ };

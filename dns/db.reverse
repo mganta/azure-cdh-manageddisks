@@ -1,0 +1,13 @@
+$ORIGIN .
+$TTL 600  ; 10 minutes
+0.2.10.in-addr.arpa  IN SOA  dnsserver.cdh-boa.internal. hostmaster.cdh-boa.internal. (
+        10     ; serial
+        600    ; refresh (10 minutes)
+        60     ; retry (1 minute)
+        604800   ; expire (1 week)
+        600    ; minimum (10 minutes)
+        )
+      NS  dnsserver.cdh-boa.internal.
+
+$ORIGIN 0.2.10.in-addr.arpa.
+4      PTR  dnsserver.cdh-boa.internal.
