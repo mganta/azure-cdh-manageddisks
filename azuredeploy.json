@@ -221,7 +221,7 @@
             "value": {
               "vmSize": "[variables('tshirtSize').vmSize]",
               "diskSize": "[variables('tshirtSize').diskSize]",
-              "vmCount": "1",
+              "vmCount": 1,
               "availabilitySet": "[variables('availabilitySetSettings').name]"
             }
           }

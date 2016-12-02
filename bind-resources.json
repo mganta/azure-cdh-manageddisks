@@ -164,7 +164,7 @@
         "autoUpgradeMinorVersion": true,
         "settings": {
           "fileUris": "[parameters('osSettings').scripts]",
-          "commandToExecute": "[concat('bash ', ' bind_install.sh')]"
+          "commandToExecute": "[concat('bash ', 'bind_install.sh')]"
         }
       }
     }
