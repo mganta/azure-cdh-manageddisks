@@ -90,7 +90,7 @@
         "count": "[variables('vmCount')]"
       },
       "plan": {
-                "name": "Pay-As-You-Go",
+                "name": "cloudera-centos-os",
                 "product": "[parameters('osSettings').imageReference.offer]",
                 "publisher": "[parameters('osSettings').imageReference.publisher]"
       },
