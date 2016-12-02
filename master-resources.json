@@ -135,6 +135,18 @@
             "name": "[concat('master', parameters('batchSettings'), 'datadisk2', copyIndex())]",
             "diskSizeGB": "1023",
             "createOption": "empty"
+          },
+          {
+           "lun": 2,
+            "name": "[concat('master', parameters('batchSettings'), 'datadisk3', copyIndex())]",
+            "diskSizeGB": "1023",
+            "createOption": "empty"
+          },
+          {
+           "lun": 1,
+            "name": "[concat('master', parameters('batchSettings'), 'datadisk4', copyIndex())]",
+            "diskSizeGB": "1023",
+            "createOption": "empty"
           }
         ]
       },
@@ -166,7 +178,7 @@
         "autoUpgradeMinorVersion": true,
         "settings": {
           "fileUris": "[parameters('osSettings').scripts]",
-          "commandToExecute": "[concat('bash master_install.sh -b', copyindex(),' -c ', variables('vmCount'),' -i ', variables('subnet'), ' -d ', parameters('agentSettings'))]"
+          "commandToExecute": "[concat('bash master_install.sh -b', copyindex(),' -c ', variables('vmCount'))]"
         }
       }
     }
