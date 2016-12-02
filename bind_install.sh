@@ -1,5 +1,5 @@
 #!/bin/bash
-
+exit 0
 yum -y install bind bind-utils
 
 wget https://raw.githubusercontent.com/mganta/azure-cdh-manageddisks/master/dns/db.internal
@@ -23,7 +23,6 @@ wget https://raw.githubusercontent.com/mganta/azure-cdh-manageddisks/master/scri
 
 
 mkdir /etc/named/zones
-exit 0
 
 chmod 755 dns_updates.sh
 #mv /etc/named.conf /etc/named.conf.orig
