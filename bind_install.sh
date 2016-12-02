@@ -25,7 +25,7 @@ chmod 755 dns_updates.sh
 
 mkdir /etc/named/zones
 
-mv /etc/named.conf /etc/named.conf.orig
+#mv /etc/named.conf /etc/named.conf.orig
 
 cp named.conf /etc/named.conf
 
