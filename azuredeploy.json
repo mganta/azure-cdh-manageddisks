@@ -222,8 +222,7 @@
               "vmSize": "[variables('tshirtSize').vmSize]",
               "diskSize": "[variables('tshirtSize').diskSize]",
               "vmCount": "1",
-              "availabilitySet": "[variables('availabilitySetSettings').name]",
-              "addprefix": "[variables('networkSettings').subnets.util.addprefix]"
+              "availabilitySet": "[variables('availabilitySetSettings').name]"
             }
           }
         }
