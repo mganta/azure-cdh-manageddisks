@@ -1,5 +1,6 @@
 #!/bin/bash
 exit 0
+#script not ready yet
 yum -y install bind bind-utils
 
 wget https://raw.githubusercontent.com/mganta/azure-cdh-manageddisks/master/dns/db.internal

@@ -1,11 +1,11 @@
-﻿{
+{
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
     "storageAccountNamePrefix": {
       "type": "string",
       "metadata": {
-        "description": "Unique name of the new storage account that will be created"
+        "description": "Unique name of the new storage account that will be created to store virtual machine VHDs"
       }
     },
     "domainName": {
@@ -39,6 +39,17 @@
         "description": "T-shirt size of the cdh deployment"
       }
     },
+    "jumpbox": {
+      "type": "string",
+      "defaultValue": "Enabled",
+      "allowedValues": [
+        "Enabled",
+        "Disabled"
+      ],
+      "metadata": {
+        "description": "The flag allowing to enable or disable provisioning of the jumpbox VM that can be used to access the cdh environment"
+      }
+    },
    "batchSettings": {
       "type": "string",
      "defaultValue": "0",
@@ -56,49 +67,60 @@
   },
   "variables": {
     "templateBaseUrl": "https://raw.githubusercontent.com/mganta/azure-cdh-manageddisks/master/",
-    "sharedTemplateUrl": "[concat(variables('templateBaseUrl'), 'shared-resources.json')]",
+    "sharedTemplateUrl": "[concat(variables('templateBaseUrl'), 'shared-resources-groups.json')]",
     "tshirtSizeMedium": {
       "vmSize": "Standard_D14_V2",
       "diskSize": 1023,
-      "vmTemplate": "[concat(variables('templateBaseUrl'),'worker-resources.json')]",
+      "vmTemplate": "[concat(variables('templateBaseUrl'),'add-worker-resources.json')]",
       "masterCount": 5,
       "workerCount": 10,
       "storage": {
         "name": "[parameters('storageAccountNamePrefix')]",
+        "count": 1,
+        "jumpbox" : 0
       }
     },
     "tshirtSizeLarge": {
       "vmSize": "Standard_D14_V2",
       "diskSize": 1023,
-      "vmTemplate": "[concat(variables('templateBaseUrl'), 'worker-resources.json')]",
+      "vmTemplate": "[concat(variables('templateBaseUrl'), 'add-worker-resources.json')]",
       "masterCount": 5,
       "workerCount": 100,
       "storage": {
         "name": "[parameters('storageAccountNamePrefix')]",
+        "count": 1,
+        "jumpbox" : 0
       }
     },
     "tshirtSizeXLarge": {
       "vmSize": "Standard_D14_V2",
       "diskSize": 1023,
-      "vmTemplate": "[concat(variables('templateBaseUrl'), 'worker-resources.json')]",
+      "vmTemplate": "[concat(variables('templateBaseUrl'), 'add-worker-resources.json')]",
       "masterCount": 8,
       "workerCount": 200,
       "storage": {
         "name": "[parameters('storageAccountNamePrefix')]",
+        "count": 1,
+        "jumpbox" : 0
       }
     },
     "tshirtSize": "[variables(concat('tshirtSize', parameters('tshirtSize')))]",
+    "jumpboxTemplateEnabled": "jumpbox-resources.json",
+    "jumpboxTemplateDisabled": "empty-resources.json",
     "vmTemplatemaster": "[concat(variables('templateBaseUrl'), 'master-resources.json')]",
+    "vmTemplateutil": "[concat(variables('templateBaseUrl'), 'bind-resources.json')]",
+    "jumpboxTemplateUrl": "[concat(variables('templateBaseUrl'), 'jumpbox-resources.json')]",
     "osSettings": {
       "scripts": [
         "[concat(variables('templateBaseUrl'), 'master_install.sh')]",
         "[concat(variables('templateBaseUrl'), 'jump_install.sh')]",
+        "[concat(variables('templateBaseUrl'), 'bind_install.sh')]",
         "[concat(variables('templateBaseUrl'), 'worker_install.sh')]"
       ],
       "imageReference": {
           "publisher": "cloudera",
-          "offer": "cloudera-centos-os",
-          "sku": "6_7",
+          "offer": "cloudera-centos-6",
+          "sku": "cloudera-centos-6",
           "version": "latest"
       }
     },
@@ -106,6 +128,22 @@
       "vnetName": "[parameters('virtualNetworkName')]",
       "addressPrefix": "10.2.0.0/16",
       "subnets": {
+        "jump": {
+          "name": "jump",
+          "prefix": "10.2.16.0/23",
+          "vnet": "[parameters('virtualNetworkName')]"
+        },
+        "util": {
+          "name": "util",
+          "prefix": "10.2.20.0/27",
+          "vnet": "[parameters('virtualNetworkName')]"
+        },
+        "master": {
+          "name": "master",
+          "prefix": "10.2.18.0/23",
+          "addprefix": "10.2.18.1",
+          "vnet": "[parameters('virtualNetworkName')]"
+        },
         "worker": {
           "name": "worker",
           "prefix": "10.2.0.0/20",
@@ -115,17 +153,42 @@
       }
     },
     "availabilitySetSettings": {
-      "name": "cdhAvailabilitySet",
+      "name": "[concat('cdhAvailabilitySet', parameters('batchSettings'))]",
       "fdCount": 3,
       "udCount": 5
     }
   },
   "resources": [
     {
+      "name": "shared",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2016-02-01",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('sharedTemplateUrl')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "storageSettings": {
+            "value": "[variables('tshirtSize').storage]"
+          },
+          "networkSettings": {
+            "value": "[variables('networkSettings')]"
+          },
+          "availabilitySetSettings": {
+            "value": "[variables('availabilitySetSettings')]"
+          }
+        }
+      }
+    },
+    {
       "name": "worker-node",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2016-02-01",
-      "dependsOn": [],
+      "dependsOn": [
+        "[concat('Microsoft.Resources/deployments/', 'shared')]"
+      ],
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -160,6 +223,7 @@
               "diskSize": "[variables('tshirtSize').diskSize]",
               "vmCount": "[variables('tshirtSize').workerCount]",
               "availabilitySet": "[variables('availabilitySetSettings').name]",
+              "workerSubnet": "[variables('networkSettings').subnets.worker.addprefix]",
               "addprefix": "[variables('networkSettings').subnets.worker.addprefix]"
             }
           }
