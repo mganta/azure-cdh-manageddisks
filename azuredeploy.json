@@ -27,6 +27,12 @@
         "description": "Virtual machine administrator password"
       }
     },
+    "sshKeyData": {
+      "type": "string",
+      "metadata": {
+        "description": "SSH rsa public key file as a string."
+      }
+    },
     "tshirtSize": {
       "type": "string",
       "defaultValue": "Medium",
@@ -110,6 +116,7 @@
     "vmTemplatemaster": "[concat(variables('templateBaseUrl'), 'master-resources.json')]",
     "vmTemplateutil": "[concat(variables('templateBaseUrl'), 'bind-resources.json')]",
     "jumpboxTemplateUrl": "[concat(variables('templateBaseUrl'), 'jumpbox-resources.json')]",
+    "sshKeyPath": "[concat('/home/',parameters('adminUsername'),'/.ssh/authorized_keys')]",
     "osSettings": {
       "scripts": [
         "[concat(variables('templateBaseUrl'), 'master_install.sh')]",
@@ -214,6 +221,8 @@
           "commonSettings": {
             "value": {
               "adminUsername": "[parameters('adminUsername')]",
+              "sshKeyPath": "[parameters('sshKeyPath')]",
+              "sshKeyData": "[parameters('sshKeyData')]",
               "namespace": "util"
             }
           },
@@ -260,6 +269,8 @@
           "commonSettings": {
             "value": {
               "adminUsername": "[parameters('adminUsername')]",
+              "sshKeyPath": "[parameters('sshKeyPath')]",
+              "sshKeyData": "[parameters('sshKeyData')]",
               "namespace": "master"
             }
           },
@@ -307,6 +318,8 @@
           "commonSettings": {
             "value": {
               "adminUsername": "[parameters('adminUsername')]",
+              "sshKeyPath": "[parameters('sshKeyPath')]",
+              "sshKeyData": "[parameters('sshKeyData')]",
               "namespace": "worker"
             }
           },
@@ -351,6 +364,8 @@
           "commonSettings": {
             "value": {
               "adminUsername": "[parameters('adminUsername')]",
+              "sshKeyPath": "[parameters('sshKeyPath')]",
+              "sshKeyData": "[parameters('sshKeyData')]",
               "namespace": "jumpbox"
             }
           },
