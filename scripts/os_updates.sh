@@ -1,3 +1,9 @@
+#!/bin/bash
+
+#disable password for sudo
+sed -i '/Defaults[[:space:]]\+!*requiretty/s/^/#/' /etc/sudoers
+echo "$ADMINUSER ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+
 ls -la /
 # Create Impala scratch directory
 numDataDirs=$(ls -la / | grep data | wc -l)
