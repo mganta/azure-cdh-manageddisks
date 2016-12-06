@@ -182,8 +182,10 @@
         "typeHandlerVersion": "1.5",
         "autoUpgradeMinorVersion": true,
         "settings": {
-          "fileUris": "[parameters('osSettings').scripts]",
-          "commandToExecute": "[concat('bash worker_install.sh -b', copyindex(),' -c ', variables('vmCount'))]"
+          "fileUris": "[
+              parameters('osSettings').scripts
+           ]",
+          "commandToExecute": "[concat('bash worker_install.sh -b ', copyindex())]"
         }
       }
     }

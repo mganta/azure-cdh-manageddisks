@@ -178,7 +178,7 @@
         "autoUpgradeMinorVersion": true,
         "settings": {
           "fileUris": "[parameters('osSettings').scripts]",
-          "commandToExecute": "[concat('bash master_install.sh -b', copyindex(),' -c ', variables('vmCount'))]"
+          "commandToExecute": "[concat('bash master_install.sh -b ', copyindex())]"
         }
       }
     }
