@@ -33,6 +33,15 @@
     "vmCount": 1
   },
   "resources": [
+      {
+        "type": "Microsoft.Storage/storageAccounts",		
+       "name": "[variables('storageAccountName')]",		
+       "apiVersion": "2015-06-15",		
+       "location": "[resourceGroup().location]",		
+       "properties": {		
+         "accountType": "Standard_LRS"		
+       }		
+     },
     {
       "type": "Microsoft.Compute/availabilitySets",
       "name": "[variables('availabilitySetName')]",
