@@ -196,7 +196,7 @@
           "fileUris": "[
               parameters('osSettings').scripts
            ]",
-          "commandToExecute": "[concat('bash worker_install.sh -b ', copyindex())]"
+          "commandToExecute": "[concat('bash worker_install.sh ', parameters('commonSettings').adminUsername)]"
         }
       }
     }

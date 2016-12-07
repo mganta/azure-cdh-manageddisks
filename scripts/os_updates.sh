@@ -49,20 +49,18 @@ echo net.ipv4.tcp_low_latency=1 >> /etc/sysctl.conf
 sed -i "s/defaults        1 1/defaults,noatime        0 0/" /etc/fstab
 
 #use the key from the key vault as the SSH authorized key
-mkdir /home/$ADMINUSER/.ssh
-chown $ADMINUSER /home/$ADMINUSER/.ssh
-chmod 700 /home/$ADMINUSER/.ssh
+#mkdir /home/$ADMINUSER/.ssh
+#chown $ADMINUSER /home/$ADMINUSER/.ssh
+#chmod 700 /home/$ADMINUSER/.ssh
 
-ssh-keygen -y -f /var/lib/waagent/*.prv > /home/$ADMINUSER/.ssh/authorized_keys
-chown $ADMINUSER /home/$ADMINUSER/.ssh/authorized_keys
-chmod 600 /home/$ADMINUSER/.ssh/authorized_keys
+#chown $ADMINUSER /home/$ADMINUSER/.ssh/authorized_keys
+#chmod 600 /home/$ADMINUSER/.ssh/authorized_keys
+
+echo "PubkeyAuthentication yes" >> /etc/ssh/sshd_config
+service sshd restart
 
 myhostname=`hostname`
 fqdnstring=`python -c "import socket; print socket.getfqdn('$myhostname')"`
 sed -i "s/.*HOSTNAME.*/HOSTNAME=${fqdnstring}/g" /etc/sysconfig/network
 /etc/init.d/network restart
 
-#disable password authentication in ssh
-#sed -i "s/UsePAM\s*yes/UsePAM no/" /etc/ssh/sshd_config
-#sed -i "s/PasswordAuthentication\s*yes/PasswordAuthentication no/" /etc/ssh/sshd_config
-#/etc/init.d/sshd restart
