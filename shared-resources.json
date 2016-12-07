@@ -15,19 +15,6 @@
   "variables": {},
   "resources": [
     {
-      "type": "Microsoft.Storage/storageAccounts",
-      "name": "[concat(parameters('storageSettings').name, copyindex())]",
-      "apiVersion": "2015-06-15",
-      "location": "[resourceGroup().location]",
-      "copy": {
-        "name": "dbStoragePoolLoop",
-        "count": "[parameters('storageSettings').count]"
-      },
-      "properties": {
-        "accountType": "Standard_LRS"
-      }
-    },
-    {
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Network/virtualNetworks",
       "name": "[parameters('networkSettings').vnetName]",
