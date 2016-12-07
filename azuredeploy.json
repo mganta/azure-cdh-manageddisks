@@ -221,7 +221,7 @@
           "commonSettings": {
             "value": {
               "adminUsername": "[parameters('adminUsername')]",
-              "sshKeyPath": "[parameters('sshKeyPath')]",
+              "sshKeyPath": "[variables('sshKeyPath')]",
               "sshKeyData": "[parameters('sshKeyData')]",
               "namespace": "util"
             }
@@ -269,7 +269,7 @@
           "commonSettings": {
             "value": {
               "adminUsername": "[parameters('adminUsername')]",
-              "sshKeyPath": "[parameters('sshKeyPath')]",
+              "sshKeyPath": "[variables('sshKeyPath')]",
               "sshKeyData": "[parameters('sshKeyData')]",
               "namespace": "master"
             }
@@ -318,7 +318,7 @@
           "commonSettings": {
             "value": {
               "adminUsername": "[parameters('adminUsername')]",
-              "sshKeyPath": "[parameters('sshKeyPath')]",
+              "sshKeyPath": "[variables('sshKeyPath')]",
               "sshKeyData": "[parameters('sshKeyData')]",
               "namespace": "worker"
             }
@@ -364,7 +364,7 @@
           "commonSettings": {
             "value": {
               "adminUsername": "[parameters('adminUsername')]",
-              "sshKeyPath": "[parameters('sshKeyPath')]",
+              "sshKeyPath": "[variables('sshKeyPath')]",
               "sshKeyData": "[parameters('sshKeyData')]",
               "namespace": "jumpbox"
             }
