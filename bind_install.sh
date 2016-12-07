@@ -1,8 +1,11 @@
 #!/bin/bash
-exit 0
-#script not ready yet
-yum -y install bind bind-utils
 
+yum -y install bind bind-utils
+echo "PubkeyAuthentication yes" >> /etc/ssh/sshd_config
+service sshd restart
+
+#script not ready yet
+exit 0
 wget https://raw.githubusercontent.com/mganta/azure-cdh-manageddisks/master/dns/db.internal
 wget https://raw.githubusercontent.com/mganta/azure-cdh-manageddisks/master/dns/db.internal.16
 wget https://raw.githubusercontent.com/mganta/azure-cdh-manageddisks/master/dns/db.internal.18
