@@ -3,16 +3,19 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "storageAccountNamePrefix": {
-      "value": "cdhmd"
+      "value": "cdhstore"
     },
     "adminUsername": {
-      "value": "admin"
+      "value": "myuser"
     },
     "adminPassword": {
-      "value": "azure00"
+      "value": "blah"
+    },
+    "sshKeyData": {
+      "value": "ssh-rsa blah myuser@vm-123"
     },
     "domainName": {
-      "value": "cdh-boa-iaas"
+      "value": "cdh-iaas1"
     },
     "jumpbox": {
       "value": "Enabled"
