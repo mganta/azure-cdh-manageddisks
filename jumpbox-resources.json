@@ -25,9 +25,9 @@
     "vmStorageAccountContainerName": "vhd",
     "subnetRef": "[concat(resourceId('Microsoft.Network/virtualNetworks', parameters('subnet').vnet), '/subnets/', parameters('subnet').name)]",
     "storageAccountName": "[parameters('storageSettings').name]",
-    "nicName": "[concat(parameters('commonSettings').namespace, 'nic')]",
-    "vmName": "[concat(parameters('commonSettings').namespace, '-vm')]",
-    "publicIpName": "[concat(parameters('commonSettings').namespace, 'publicIp')]",
+    "nicName": "[concat(parameters('commonSettings').namespace, 'jnic')]",
+    "vmName": "[concat(parameters('commonSettings').namespace, 'jvm')]",
+    "publicIpName": "[concat(parameters('commonSettings').namespace, 'jpublicIp')]",
     "vmSize": "Standard_D14_V2",
     "availabilitySetName": "jumpboxAvailabilitySet",
     "vmCount": 1
@@ -138,13 +138,13 @@
             "version": "latest"
           },
           "osDisk": {
-            "name": "[concat('osDisk', variables('vmName'), copyindex())]",
+            "name": "[concat('osDiskj', variables('vmName'), copyindex())]",
             "createOption": "fromImage"
           },
           "dataDisks": [
           {
            "lun": 0,
-            "name": "[concat('jumpbox', parameters('batchSettings'), 'datadisk1', copyIndex())]",
+            "name": "[concat('jumpbox', 'datadisk1', copyIndex())]",
             "diskSizeGB": "512",
             "createOption": "empty"
           }
@@ -153,7 +153,7 @@
         "networkProfile": {
           "networkInterfaces": [
             {
-              "id": "[resourceId('Microsoft.Network/networkInterfaces', concat(variables('nicName'), copyindex()) )]"
+              "id": "[resourceId('Microsoft.Network/networkInterfaces', concat(variables('nicName'), copyindex()))]"
             }
            ],           
           "inputEndpoints": [
