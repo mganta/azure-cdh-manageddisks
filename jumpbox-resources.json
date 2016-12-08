@@ -25,11 +25,12 @@
     "vmStorageAccountContainerName": "vhd",
     "subnetRef": "[concat(resourceId('Microsoft.Network/virtualNetworks', parameters('subnet').vnet), '/subnets/', parameters('subnet').name)]",
     "storageAccountName": "[parameters('storageSettings').name]",
-    "nicName": "[concat(parameters('commonSettings').namespace, 'jnic')]",
-    "vmName": "[concat(parameters('commonSettings').namespace, 'jvm')]",
-    "publicIpName": "[concat(parameters('commonSettings').namespace, 'jpublicIp')]",
+    "nicName": "[concat(parameters('commonSettings').namespace, 'nic')]",
+    "vmName": "[concat(parameters('commonSettings').namespace, 'vm')]",
+    "publicIpName": "[concat(parameters('commonSettings').namespace, 'publicIp')]",
     "vmSize": "Standard_D14_V2",
     "availabilitySetName": "jumpboxAvailabilitySet",
+    "adminUsername": "[parameters('commonSettings').adminUsername]",
     "vmCount": 1
   },
   "resources": [
@@ -50,7 +51,7 @@
       "name": "[concat(variables('publicIpName'), copyindex())]",
       "location": "[resourceGroup().location]",
       "copy": {
-        "name": "nicCopyLoop",
+        "name": "ipCopyLoop",
         "count": "[variables('vmCount')]"
       },
       "properties": {
