@@ -2,3 +2,4 @@
 export ADMINUSER=adminuser
 bash os_updates.sh
 bash prepare_master_nodes.sh
+bash dns_updates.sh
