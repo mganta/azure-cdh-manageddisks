@@ -1,14 +1,12 @@
 $ORIGIN .
-$TTL 600  ; 10 minutes
-cdh-boa.internal  IN SOA  dnsserver.cdh-boa.internal. hostmaster.cdh-boa.internal. (
-        10         ; serial
-        600        ; refresh (10 minutes)
-        60         ; retry (1 minute)
-        604800     ; expire (1 week)
-        600        ; minimum (10 minutes)
-        )
-        NS  dnsserver.cdh-boa.internal.
-
-; replace `cdh-cluster.internal` with the zone name defined in /etc/named/named.conf.local; note the trailing period (.)
-$ORIGIN cdh-boa.internal.
-dnsserver    A  10.2.20.4
+$TTL 600        ; 10 minutes
+cdh-worker.internal     IN SOA  dnsserver.cdh-util.internal. hostmaster.cdh-util.internal. (
+                                11         ; serial
+                                600        ; refresh (10 minutes)
+                                60         ; retry (1 minute)
+                                604800     ; expire (1 week)
+                                600        ; minimum (10 minutes)
+                                )
+                        NS      dnsserver.cdh-util.internal.
+$ORIGIN cdh-worker.internal.
+dnsserver               A       10.2.20.4

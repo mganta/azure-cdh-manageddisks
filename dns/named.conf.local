@@ -1,11 +1,11 @@
-zone "cdh-boa.internal" IN {
+zone "cdh-worker.internal" IN {
     type master;
     file "/etc/named/zones/db.internal";
-    allow-update { 10.2.0.0/16; };
+    allow-update { 10.2.0.0/20; };
 };
 
 zone "0.2.10.in-addr.arpa" IN {
     type master;
     file "/etc/named/zones/db.reverse";
-    allow-update { 10.2.0.0/16; };
+    allow-update { 10.2.0.0/20; };
  };

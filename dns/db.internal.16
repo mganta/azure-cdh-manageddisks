@@ -1,12 +1,12 @@
 $ORIGIN .
 $TTL 600        ; 10 minutes
-cdh-jump.internal       IN SOA  dnsserver.cdh-boa.internal. hostmaster.cdh-boa.internal. (
+cdh-jump.internal       IN SOA  dnsserver.cdh-util.internal. hostmaster.cdh-boa.internal. (
                                 11         ; serial
                                 600        ; refresh (10 minutes)
                                 60         ; retry (1 minute)
                                 604800     ; expire (1 week)
                                 600        ; minimum (10 minutes)
                                 )
-                        NS      dnsserver.cdh-boa.internal.
+                        NS      dnsserver.cdh-util.internal.
 $ORIGIN cdh-jump.internal.
 dnsserver               A       10.2.20.4
