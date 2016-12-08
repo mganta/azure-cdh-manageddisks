@@ -28,3 +28,5 @@ chown -R named:named /etc/named*
 service named start
 chkconfig named on
 bash dns_updates.sh
+yum -y install bind-chroot
+service named restart
