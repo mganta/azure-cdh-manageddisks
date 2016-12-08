@@ -242,11 +242,42 @@
       }
     },
     {
+  "name": "update-dns",
+  "type": "Microsoft.Resources/deployments",
+  "apiVersion": "2015-01-01",
+  "dependsOn": [
+    "[concat('Microsoft.Resources/deployments/', 'util-node')]"
+  ],
+  "properties": {
+    "mode": "Incremental",
+    "templateLink": {
+      "uri": "[variables('sharedTemplateUrl')]",
+      "contentVersion": "1.0.0.0"
+    },
+    "parameters": {
+      "storageSettings": {
+        "value": "[variables('tshirtSize').storage]"
+         },
+        "networkSettings": {
+          "value": "[variables('networkSettings')]"
+         },
+        "availabilitySetSettings": {
+          "value": "[variables('availabilitySetSettings')]"
+         },
+       "dnsServers": {
+         "value": [
+           "10.2.20.4"
+         ]
+       }
+    }
+  }
+},    
+    {
       "name": "master-node",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2016-02-01",
       "dependsOn": [
-        "[concat('Microsoft.Resources/deployments/', 'util-node')]"
+        "[concat('Microsoft.Resources/deployments/', 'update-dns')]"
       ],
       "properties": {
         "mode": "Incremental",
@@ -345,7 +376,7 @@
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2016-02-01",
       "dependsOn": [
-        "[concat('Microsoft.Resources/deployments/', 'util-node')]"
+        "[concat('Microsoft.Resources/deployments/', 'update-dns')]"
       ],
       "properties": {
         "mode": "Incremental",

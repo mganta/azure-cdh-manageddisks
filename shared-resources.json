@@ -10,7 +10,11 @@
     },
     "networkSettings": {
       "type": "object"
-    }
+    },
+   "dnsServers": {
+      "type": "array",
+      "defaultValue": [ ]
+    },
   },
   "variables": {},
   "resources": [
@@ -24,6 +28,9 @@
           "addressPrefixes": [
             "[parameters('networkSettings').addressPrefix]"
           ]
+        },
+      "dhcpOptions": {
+          "dnsServers": "[parameters('dnsServers')]"
         },
         "subnets": [
           {
