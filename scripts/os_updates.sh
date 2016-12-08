@@ -54,6 +54,5 @@ service sshd restart
 myhostname=`hostname`
 fqdnstring=`python -c "import socket; print socket.getfqdn('$myhostname')"`
 sed -i "s/.*HOSTNAME.*/HOSTNAME=${fqdnstring}/g" /etc/sysconfig/network
-service nscd restart
 /etc/init.d/network restart
 
