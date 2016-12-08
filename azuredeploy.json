@@ -123,6 +123,7 @@
         "[concat(variables('templateBaseUrl'), 'jump_install.sh')]",
         "[concat(variables('templateBaseUrl'), 'bind_install.sh')]",
         "[concat(variables('templateBaseUrl'), 'worker_install.sh')]",
+        "[concat(variables('templateBaseUrl'), 'dns_updates.sh')]",
         "[concat(variables('templateBaseUrl'), 'scripts/os_updates.sh')]",
         "[concat(variables('templateBaseUrl'), 'scripts/prepare_data_nodes.sh')]",
         "[concat(variables('templateBaseUrl'), 'scripts/prepare_master_nodes.sh')]"

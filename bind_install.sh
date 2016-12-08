@@ -28,4 +28,3 @@ chown -R named:named /etc/named*
 service named start
 chkconfig named on
 bash dns_updates.sh
-service network restart
