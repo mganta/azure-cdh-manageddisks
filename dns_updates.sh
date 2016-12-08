@@ -31,7 +31,7 @@ then
     resolvconfupdate=$(mktemp -t resolvconfupdate.XXXXXXXXXX)
     echo updating resolv.conf
     grep -iv "search" /etc/resolv.conf > "$resolvconfupdate"
-    echo "search $domain" >> "$resolvconfupdate"
+    echo "search cdh-worker.internal cdh-master.internal cdh-jump.internal cdh-util.internal" >> "$resolvconfupdate"
     cat "$resolvconfupdate" > /etc/resolv.conf
     echo "Attempting to register $host.$domain and $ptrrec"
     {
