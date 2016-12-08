@@ -26,22 +26,13 @@
     "subnetRef": "[concat(resourceId('Microsoft.Network/virtualNetworks', parameters('subnet').vnet), '/subnets/', parameters('subnet').name)]",
     "storageAccountName": "[parameters('storageSettings').name]",
     "nicName": "[concat(parameters('commonSettings').namespace, 'nic')]",
-    "vmName": "[concat(parameters('commonSettings').namespace, 'vm')]",
+    "vmName": "[concat(parameters('commonSettings').namespace, '-vm')]",
     "publicIpName": "[concat(parameters('commonSettings').namespace, 'publicIp')]",
     "vmSize": "Standard_D14_V2",
     "availabilitySetName": "jumpboxAvailabilitySet",
     "vmCount": 1
   },
   "resources": [
-      {
-        "type": "Microsoft.Storage/storageAccounts",		
-       "name": "[variables('storageAccountName')]",		
-       "apiVersion": "2015-06-15",		
-       "location": "[resourceGroup().location]",		
-       "properties": {		
-         "accountType": "Standard_LRS"		
-       }		
-     },
     {
       "type": "Microsoft.Compute/availabilitySets",
       "name": "[variables('availabilitySetName')]",
@@ -153,7 +144,7 @@
           "dataDisks": [
           {
            "lun": 0,
-            "name": "[concat('master', parameters('batchSettings'), 'datadisk1', copyIndex())]",
+            "name": "[concat('jumpbox', parameters('batchSettings'), 'datadisk1', copyIndex())]",
             "diskSizeGB": "512",
             "createOption": "empty"
           }

@@ -36,15 +36,6 @@
     "availabilitySetName": "[concat('availabilitySetMasterNodes', parameters('batchSettings'))]"
   },
    "resources": [
-      {
-        "type": "Microsoft.Storage/storageAccounts",		
-       "name": "[variables('storageAccountName')]",		
-       "apiVersion": "2015-06-15",		
-       "location": "[resourceGroup().location]",		
-       "properties": {		
-         "accountType": "Premium_LRS"		
-       }		
-     },
     {
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Network/networkInterfaces",
@@ -163,7 +154,7 @@
         "networkProfile": {
           "networkInterfaces": [
             {
-              "id": "[resourceId('Microsoft.Network/networkInterfaces', concat(variables('nicName'), copyindex()) )]"
+              "id": "[resourceId('Microsoft.Network/networkInterfaces', concat(variables('nicName'), copyindex()))]"
             }
           ]
         }

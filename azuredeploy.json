@@ -78,8 +78,8 @@
       "vmSize": "Standard_D14_V2",
       "diskSize": 1023,
       "vmTemplate": "[concat(variables('templateBaseUrl'),'worker-resources.json')]",
-      "masterCount": 5,
-      "workerCount": 10,
+      "masterCount": 3,
+      "workerCount": 4,
       "storage": {
         "name": "[parameters('storageAccountNamePrefix')]",
         "count": 1,
