@@ -16,43 +16,54 @@ do
   chmod 777 /data${x}/impala/scratch
 done
 
-setenforce 0 >> /tmp/setenforce.out
-cat /etc/selinux/config > /tmp/beforeSelinux.out
-sed -i 's^SELINUX=enforcing^SELINUX=disabled^g' /etc/selinux/config || true
-cat /etc/selinux/config > /tmp/afterSeLinux.out
+  sed -i.bak "s/^SELINUX=.*$/SELINUX=disabled/" /etc/selinux/config
+  setenforce 0
+    # stop firewall and disable
+  systemctl stop iptables
+  systemctl iptables off
+  # RHEL 7.x uses firewalld
+  systemctl stop firewalld
+  systemctl disable firewalld
+  # Disable tuned so it does not overwrite sysctl.conf
+  service tuned stop
+  systemctl disable tuned
+  # Disable chrony so it does not conflict with ntpd installed by Director
+  systemctl stop chronyd
+  systemctl disable chronyd
+    # update config to disable IPv6 and disable
+  echo "# Disable IPv6" >> /etc/sysctl.conf
+  echo "net.ipv6.conf.all.disable_ipv6 = 1" >> /etc/sysctl.conf
+  echo "net.ipv6.conf.default.disable_ipv6 = 1" >> /etc/sysctl.conf
 
-/etc/init.d/iptables save
-/etc/init.d/iptables stop
-chkconfig iptables off
+  yum install -y ntp
+ systemctl start ntpd
+ systemctl status ntpd
 
-yum install -y ntp
-service ntpd start
-service ntpd status
-chkconfig ntpd on
+ echo never | tee -a /sys/kernel/mm/transparent_hugepage/enabled
+ echo "echo never | tee -a /sys/kernel/mm/transparent_hugepage/enabled" | tee -a /etc/rc.local
+ echo vm.swappiness=1 | tee -a /etc/sysctl.conf
+ echo 1 | tee /proc/sys/vm/swappiness
+ ifconfig -a >> initialIfconfig.out; who -b >> initialRestart.out
 
-echo never | tee -a /sys/kernel/mm/transparent_hugepage/enabled
-echo "echo never | tee -a /sys/kernel/mm/transparent_hugepage/enabled" | tee -a /etc/rc.local
-echo vm.swappiness=1 | tee -a /etc/sysctl.conf
-echo 1 | tee /proc/sys/vm/swappiness
-ifconfig -a >> initialIfconfig.out; who -b >> initialRestart.out
+ echo net.ipv4.tcp_timestamps=0 >> /etc/sysctl.conf
+ echo net.ipv4.tcp_sack=1 >> /etc/sysctl.conf
+ echo net.core.rmem_max=4194304 >> /etc/sysctl.conf
+ echo net.core.wmem_max=4194304 >> /etc/sysctl.conf
+ echo net.core.rmem_default=4194304 >> /etc/sysctl.conf
+ echo net.core.wmem_default=4194304 >> /etc/sysctl.conf
+ echo net.core.optmem_max=4194304 >> /etc/sysctl.conf
+ echo net.ipv4.tcp_rmem="4096 87380 4194304" >> /etc/sysctl.conf
+ echo net.ipv4.tcp_wmem="4096 65536 4194304" >> /etc/sysctl.conf
+ echo net.ipv4.tcp_low_latency=1 >> /etc/sysctl.conf
+ sed -i "s/defaults        1 1/defaults,noatime        0 0/" /etc/fstab
 
-echo net.ipv4.tcp_timestamps=0 >> /etc/sysctl.conf
-echo net.ipv4.tcp_sack=1 >> /etc/sysctl.conf
-echo net.core.rmem_max=4194304 >> /etc/sysctl.conf
-echo net.core.wmem_max=4194304 >> /etc/sysctl.conf
-echo net.core.rmem_default=4194304 >> /etc/sysctl.conf
-echo net.core.wmem_default=4194304 >> /etc/sysctl.conf
-echo net.core.optmem_max=4194304 >> /etc/sysctl.conf
-echo net.ipv4.tcp_rmem="4096 87380 4194304" >> /etc/sysctl.conf
-echo net.ipv4.tcp_wmem="4096 65536 4194304" >> /etc/sysctl.conf
-echo net.ipv4.tcp_low_latency=1 >> /etc/sysctl.conf
-sed -i "s/defaults        1 1/defaults,noatime        0 0/" /etc/fstab
+ echo "PubkeyAuthentication yes" >> /etc/ssh/sshd_config
+ sysctl -p
 
-echo "PubkeyAuthentication yes" >> /etc/ssh/sshd_config
-service sshd restart
+ systemctl restart sshd
 
-myhostname=`hostname`
-fqdnstring=`python -c "import socket; print socket.getfqdn('$myhostname')"`
-sed -i "s/.*HOSTNAME.*/HOSTNAME=${fqdnstring}/g" /etc/sysconfig/network
-/etc/init.d/network restart
+ myhostname=`hostname`
+ fqdnstring=`python -c "import socket; print socket.getfqdn('$myhostname')"`
+ sed -i "s/.*HOSTNAME.*/HOSTNAME=${fqdnstring}/g" /etc/sysconfig/network
+ service network restart
 
