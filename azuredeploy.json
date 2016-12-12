@@ -130,8 +130,8 @@
       ],
       "imageReference": {
           "publisher": "cloudera",
-          "offer": "cloudera-centos-6",
-          "sku": "cloudera-centos-6",
+          "offer": "cloudera-centos-os",
+          "sku": "7_2",
           "version": "latest"
       }
     },

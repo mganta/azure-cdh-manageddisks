@@ -84,7 +84,7 @@
         "count": "[variables('vmCount')]"
       },
       "plan": {
-                "name": "cloudera-centos-6",
+                "name": "7_2",
                 "product": "[parameters('osSettings').imageReference.offer]",
                 "publisher": "[parameters('osSettings').imageReference.publisher]"
       },
