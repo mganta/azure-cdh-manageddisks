@@ -43,7 +43,7 @@
 
          ],
          "sku":{
-            "name":"[parameters('osSettings').imageReference.sku]",
+            "name":"Standard_D14",
             "tier":"Standard",
             "capacity":"[variables('vmCount')]"
          },
