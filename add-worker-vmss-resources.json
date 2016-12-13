@@ -39,9 +39,7 @@
          "name":"[variables('vmssName')]",
          "location":"[resourceGroup().location]",
          "apiVersion":"2016-04-30-preview",
-         "dependsOn":[
-
-         ],
+         "dependsOn":[ ],
          "sku":{
             "name":"Standard_D14",
             "tier":"Standard",
