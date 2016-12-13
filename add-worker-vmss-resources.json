@@ -45,15 +45,15 @@
             "tier":"Standard",
             "capacity":"[variables('vmCount')]"
          },
+         "plan":{
+               "name":"7_2",
+               "product":"[parameters('osSettings').imageReference.offer]",
+               "publisher":"[parameters('osSettings').imageReference.publisher]"
+          },
          "properties":{
             "overprovision":"true",
             "upgradePolicy":{
                "mode":"Manual"
-            },
-            "plan":{
-               "name":"7_2",
-               "product":"[parameters('osSettings').imageReference.offer]",
-               "publisher":"[parameters('osSettings').imageReference.publisher]"
             },
             "virtualMachineProfile":{
                "storageProfile":{
