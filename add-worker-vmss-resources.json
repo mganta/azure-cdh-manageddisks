@@ -59,7 +59,7 @@
                      "version":"latest"
                   },
                   "osDisk":{
-                     "diskSizeGB": "500",
+                     "name": "vmssosdisk",
                      "createOption":"fromImage"
                   },
                   "dataDisks":[
