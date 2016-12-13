@@ -31,7 +31,7 @@
     "adminUsername": "[parameters('commonSettings').adminUsername]",
     "vmCount": "[parameters('machineSettingsWorker').vmCount]",
     "addprefix": "[parameters('machineSettingsWorker').addprefix]",
-    "vmssName": "[concat('workervm', parameters('batchSettings'))]"
+    "vmssName": "[concat('workervmss', parameters('batchSettings'))]"
   },
   "resources": [
   {
