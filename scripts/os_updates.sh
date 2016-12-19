@@ -58,6 +58,8 @@ done
  sed -i "s/defaults        1 1/defaults,noatime        0 0/" /etc/fstab
 
  echo "PubkeyAuthentication yes" >> /etc/ssh/sshd_config
+ echo never > /sys/kernel/mm/transparent_hugepage/defrag
+ echo never > /sys/kernel/mm/transparent_hugepage/enabled
  sysctl -p
 
  systemctl restart sshd
