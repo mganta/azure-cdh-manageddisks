@@ -69,3 +69,8 @@ done
  sed -i "s/.*HOSTNAME.*/HOSTNAME=${fqdnstring}/g" /etc/sysconfig/network
  service network restart
 
+wget http://archive.cloudera.com/cm5/redhat/7/x86_64/cm/cloudera-manager.repo -O /etc/yum.repos.d/cloudera-manager.repo
+yum install -y jdk
+yum install -y cloudera-manager-agent cloudera-manager-daemons
+sed -i 's/^\(server_host=\).*/\1'mastervm00.cdh-master.internal'/' /etc/cloudera-scm-agent/config.ini
+service cloudera-scm-agent restart
