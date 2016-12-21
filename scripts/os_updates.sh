@@ -55,8 +55,14 @@ done
  echo net.ipv4.tcp_rmem="4096 87380 4194304" >> /etc/sysctl.conf
  echo net.ipv4.tcp_wmem="4096 65536 4194304" >> /etc/sysctl.conf
  echo net.ipv4.tcp_low_latency=1 >> /etc/sysctl.conf
+ echo fs.file-max=100000 >> /etc/sysctl.conf
+
  sed -i "s/defaults        1 1/defaults,noatime        0 0/" /etc/fstab
 
+ echo "* soft nproc 65535" >> /etc/security/limits.conf
+ echo "* hard nproc 65535" >> /etc/security/limits.conf
+ echo "* soft nofile 65535" >> /etc/security/limits.conf
+ echo "* hard nofile 65535" >> /etc/security/limits.conf
  echo "PubkeyAuthentication yes" >> /etc/ssh/sshd_config
  echo never > /sys/kernel/mm/transparent_hugepage/defrag
  echo never > /sys/kernel/mm/transparent_hugepage/enabled
