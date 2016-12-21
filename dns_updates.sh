@@ -23,7 +23,7 @@ new_ip_address="$DHCP4_IP_ADDRESS"
 
 host=$(hostname -s)
 domain=$(hostname | cut -d'.' -f2- -s)
-domain=${domain:='cdh-util.internal'} # REPLACE-ME If no hostname is provided, use cdh-cluster.internal
+domain=${domain:='cdh-worker.internal'} # REPLACE-ME If no hostname is provided, use cdh-cluster.internal
 if [[ $(hostname -s) = j* ]]; then
        domain=cdh-jump.internal
 elif [[ $(hostname -s) = w* ]]; then
@@ -32,6 +32,8 @@ elif [[ $(hostname -s) = m* ]]; then
        domain=cdh-master.internal
 elif [[ $(hostname -s) = d*  ]]; then
        domain=cdh-util.internal
+elif [[ $(hostname -s) = l*  ]]; then
+       domain=cdh-worker.internal
 fi
 IFS='.' read -ra ipparts <<< "$new_ip_address"
 ptrrec="$(printf %s "$new_ip_address." | tac -s.)in-addr.arpa"
