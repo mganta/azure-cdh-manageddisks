@@ -71,9 +71,10 @@ done
  systemctl restart sshd
 
  myhostname=`hostname`
- fqdnstring=`python -c "import socket; print socket.getfqdn('$myhostname')"`
- sed -i "s/.*HOSTNAME.*/HOSTNAME=${fqdnstring}/g" /etc/sysconfig/network
+# fqdnstring=`python -c "import socket; print socket.getfqdn('$myhostname')"`
+# sed -i "s/.*HOSTNAME.*/HOSTNAME=${fqdnstring}/g" /etc/sysconfig/network
  echo "HOSTNAME=`hostname -f`" >> /etc/sysconfig/network
+ echo "network restart before installing cloudera daemons"
  service network restart
 
 wget http://archive.cloudera.com/cm5/redhat/7/x86_64/cm/cloudera-manager.repo -O /etc/yum.repos.d/cloudera-manager.repo
