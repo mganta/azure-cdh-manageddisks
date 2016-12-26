@@ -13,7 +13,7 @@ cat > /etc/NetworkManager/dispatcher.d/12-register-dns <<"EOF"
 
 # Register A and PTR records when interface comes up
 # only execute on the primary nic
-if [ "$1" != "eth0" || "$2" != "up" ]
+if [ "$1" != "eth0" ] || [ "$2" != "up" ]
 then
     exit 0;
 fi
