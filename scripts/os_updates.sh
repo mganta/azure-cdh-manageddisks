@@ -39,8 +39,8 @@ done
  systemctl start ntpd
  systemctl status ntpd
 
- echo never | tee -a /sys/kernel/mm/transparent_hugepage/enabled
- echo "echo never | tee -a /sys/kernel/mm/transparent_hugepage/enabled" | tee -a /etc/rc.local
+# echo never | tee -a /sys/kernel/mm/transparent_hugepage/enabled
+# echo "echo never | tee -a /sys/kernel/mm/transparent_hugepage/enabled" | tee -a /etc/rc.local
  echo vm.swappiness=1 | tee -a /etc/sysctl.conf
  echo 1 | tee /proc/sys/vm/swappiness
  ifconfig -a >> initialIfconfig.out; who -b >> initialRestart.out
@@ -70,6 +70,7 @@ done
 
  systemctl restart sshd
 
+echo "HOSTNAME=`hostname -f`" >> /etc/sysconfig/network
  myhostname=`hostname`
  fqdnstring=`python -c "import socket; print socket.getfqdn('$myhostname')"`
  sed -i "s/.*HOSTNAME.*/HOSTNAME=${fqdnstring}/g" /etc/sysconfig/network
