@@ -19,7 +19,7 @@ then
 fi
 
 # when we have a new IP, perform nsupdate
-new_ip_address="$DHCP4_IP_ADDRESS"
+new_ip_address=`hostname -i`
 
 host=$(hostname -s)
 domain=$(hostname | cut -d'.' -f2- -s)
