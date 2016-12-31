@@ -78,6 +78,7 @@ done
  service network restart
 
 wget http://archive.cloudera.com/cm5/redhat/7/x86_64/cm/cloudera-manager.repo -O /etc/yum.repos.d/cloudera-manager.repo
+yum-config-manager --disable openlogic
 yum install -y java
 yum install -y cloudera-manager-agent cloudera-manager-daemons
 sed -i 's/^\(server_host=\).*/\1'mastervm00.cdh-master.internal'/' /etc/cloudera-scm-agent/config.ini
