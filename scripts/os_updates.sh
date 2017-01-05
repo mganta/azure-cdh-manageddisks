@@ -73,7 +73,7 @@ done
  myhostname=`hostname`
 # fqdnstring=`python -c "import socket; print socket.getfqdn('$myhostname')"`
 # sed -i "s/.*HOSTNAME.*/HOSTNAME=${fqdnstring}/g" /etc/sysconfig/network
- echo "HOSTNAME=`hostname -f`" >> /etc/sysconfig/network
+# echo "HOSTNAME=`hostname -f`" >> /etc/sysconfig/network
  echo "network restart before installing cloudera daemons"
  service network restart
 
