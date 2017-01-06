@@ -38,6 +38,9 @@ done
   yum install -y ntp
  systemctl start ntpd
  systemctl status ntpd
+ yum install -y nscd
+ systemctl start nscd
+ systemctl status nscd
 
 # echo never | tee -a /sys/kernel/mm/transparent_hugepage/enabled
 # echo "echo never | tee -a /sys/kernel/mm/transparent_hugepage/enabled" | tee -a /etc/rc.local
