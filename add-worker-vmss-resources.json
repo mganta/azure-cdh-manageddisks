@@ -51,7 +51,7 @@
                "publisher":"[parameters('osSettings').imageReference.publisher]"
           },
          "properties":{
-            "overprovision":"false",
+            "overprovision":"true",
             "upgradePolicy":{
                "mode":"Manual"
             },
