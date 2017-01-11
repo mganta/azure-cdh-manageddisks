@@ -52,6 +52,7 @@
           },
          "properties":{
             "overprovision":"true",
+            "largeScaleEnabled": "true",
             "upgradePolicy":{
                "mode":"Manual"
             },

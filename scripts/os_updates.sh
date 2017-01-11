@@ -35,7 +35,7 @@ done
   echo "net.ipv6.conf.all.disable_ipv6 = 1" >> /etc/sysctl.conf
   echo "net.ipv6.conf.default.disable_ipv6 = 1" >> /etc/sysctl.conf
 
-  yum install -y ntp
+ yum install -y ntp
  systemctl start ntpd
  systemctl status ntpd
  yum install -y nscd
@@ -50,13 +50,13 @@ done
 
  echo net.ipv4.tcp_timestamps=0 >> /etc/sysctl.conf
  echo net.ipv4.tcp_sack=1 >> /etc/sysctl.conf
- echo net.core.rmem_max=4194304 >> /etc/sysctl.conf
- echo net.core.wmem_max=4194304 >> /etc/sysctl.conf
- echo net.core.rmem_default=4194304 >> /etc/sysctl.conf
- echo net.core.wmem_default=4194304 >> /etc/sysctl.conf
- echo net.core.optmem_max=4194304 >> /etc/sysctl.conf
- echo net.ipv4.tcp_rmem="4096 87380 4194304" >> /etc/sysctl.conf
- echo net.ipv4.tcp_wmem="4096 65536 4194304" >> /etc/sysctl.conf
+ echo net.core.rmem_max=16777216 >> /etc/sysctl.conf
+ echo net.core.wmem_max=16777216 >> /etc/sysctl.conf
+ echo net.core.rmem_default=8388608 >> /etc/sysctl.conf
+ echo net.core.wmem_default=8388608 >> /etc/sysctl.conf
+ echo net.core.optmem_max=8388608 >> /etc/sysctl.conf
+ echo net.ipv4.tcp_rmem="4096 87380 16777216" >> /etc/sysctl.conf
+ echo net.ipv4.tcp_wmem="4096 65536 16777216" >> /etc/sysctl.conf
  echo net.ipv4.tcp_low_latency=1 >> /etc/sysctl.conf
  echo fs.file-max=100000 >> /etc/sysctl.conf
 
@@ -67,18 +67,16 @@ done
  echo "* soft nofile 65535" >> /etc/security/limits.conf
  echo "* hard nofile 65535" >> /etc/security/limits.conf
  echo "PubkeyAuthentication yes" >> /etc/ssh/sshd_config
- echo never > /sys/kernel/mm/transparent_hugepage/defrag
- echo never > /sys/kernel/mm/transparent_hugepage/enabled
  sysctl -p
 
  systemctl restart sshd
 
- myhostname=`hostname`
-# fqdnstring=`python -c "import socket; print socket.getfqdn('$myhostname')"`
-# sed -i "s/.*HOSTNAME.*/HOSTNAME=${fqdnstring}/g" /etc/sysconfig/network
-# echo "HOSTNAME=`hostname -f`" >> /etc/sysconfig/network
- echo "network restart before installing cloudera daemons"
- service network restart
+ ifconfig eth0 txqueuelen 5000
+ ethtool -K eth0 tso off 
+ ethtool -K eth0 sg off
+
+ echo never > /sys/kernel/mm/transparent_hugepage/defrag
+ echo never > /sys/kernel/mm/transparent_hugepage/enabled
 
 wget http://archive.cloudera.com/cm5/redhat/7/x86_64/cm/cloudera-manager.repo -O /etc/yum.repos.d/cloudera-manager.repo
 yum-config-manager --disable openlogic
