@@ -73,7 +73,7 @@ done
 
  ifconfig eth0 txqueuelen 5000
  ethtool -K eth0 tso off 
- ethtool -K eth0 sg off
+ ethtool -K eth0 gso off
 
  echo never > /sys/kernel/mm/transparent_hugepage/defrag
  echo never > /sys/kernel/mm/transparent_hugepage/enabled
